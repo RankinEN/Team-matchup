@@ -17,18 +17,30 @@ def teams():
 def roster(teamList):
     list_length = len(teamList)
     matchups = []
-    while list_length >= 0:
-        selection = random.randint(0, list_length)
-        team_one = teamList[selection]
-        del teamList[selection]
+    while list_length > 0:
+        selection = random.randint(0, (list_length - 1))
+        team_one = teamList.pop(selection)
         list_length = len(teamList)
-        selection = random.randint(0, list_length)
-        team_two = teamList[selection]
-        del teamList[selection]
+        selection = random.randint(0, (list_length - 1))
+        team_two = teamList.pop(selection)
         list_length = len(teamList)
         matchups.append(team_one + " vs " + team_two)
+        isWinner(team_one, team_two)
     return(matchups)
 
+def isWinner(teamOne, teamTwo):
+    print("This match is", teamOne, "VS", teamTwo + "!")
+    scoreOne = random.randint(1,100)
+    scoreTwo = random.randint(1,100)
+    print(teamOne, "scored ", scoreOne, "points.")
+    print(teamTwo, "scored", scoreTwo, "points.")
+    if scoreOne > scoreTwo:
+        print(teamOne, "wins the fight!")
+    else:
+        if scoreTwo > scoreOne:
+            print(teamTwo, "wins the fight!")
+        else:
+            print("it was a tie!")
 
 
 #main
