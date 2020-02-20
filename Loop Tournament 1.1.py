@@ -17,13 +17,6 @@ def teams(): #this function will take in the input for team names and create a l
     print("Now on to the Matches!")
     return(team_list)
 
-def member_list(teamlist):
-    for x in teamlist:
-        exec('global' + x)
-        exec(x + '= []')
-        print(x, "team member name:")
-        exec(x.append(input()))
-
 def roster(teamList): #this function takes th list in Teams, and creates matchups at random between two named teams.
     global winners
     list_length = len(teamList)
@@ -42,10 +35,10 @@ def roster(teamList): #this function takes th list in Teams, and creates matchup
 
 def isWinner(teamOne, teamTwo): #takes a matchup and then requests variable information which it then uses to determine the winner of a fight.
     print("On a scale of 1 to 10, the average age of", teamOne, "is:")
-	#the fiction project deals with semi-immortals so the ages can be wildly different and will play a fairly large role in who wins.
+    #the fiction project deals with semi-immortals so the ages can be wildly different and will play a fairly large role in who wins.
     mod1_1 = int(input())
     print("On a scale of 1 to 10, the average fighting experince of", teamOne, "is:")
-	#different semi-immortals have very different day-to-day lives so some will have only some experience fighting and others will have enormous experience.
+    #different semi-immortals have very different day-to-day lives so some will have only some experience fighting and others will have enormous experience.
     mod1_2 = int(input())
     print("On a scale of 1 to 10, the average age of", teamTwo, "is:")
     mod2_1 = int(input())
@@ -69,12 +62,23 @@ def isWinner(teamOne, teamTwo): #takes a matchup and then requests variable info
     print()
     return(winner)
 
+def next_round(last_winners):
+    roster_length = len(last_winners)
+    matchups = []
+    winners = []
+    while roster_length > 0:
+        team_one = last_winners.pop(0)
+        roster_length = len(last_winners)
+        team_two = last_winners.pop(0)
+        roster_length = len(last_winners)
+        matchups.append(team_one + " vs " + team_two)
+        winners.append(isWinner(team_one, team_two)) #calls isWinner and appends the result to the global variable winners
+    return(winners)
 
 #main
 
 teams_list = teams()
 team_matchups = roster(teams_list)
-member_list(teams_list)
 
 print("The matchups for this round were:")
 for x in team_matchups:
@@ -83,3 +87,12 @@ print()
 print("And the winners were:")
 for x in winners:
     print(x)
+print()
+print("On to the next round!")
+while len(winners) > 1:
+    winners = next_round(winners)
+    print("The winners of that round were:")
+    for x in winners:
+        print(x)
+
+print("The champions are Team", winners[0])
