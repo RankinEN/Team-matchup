@@ -62,7 +62,8 @@ def isWinner(teamOne, teamTwo): #takes a matchup and then requests variable info
     print()
     return(winner)
 
-def next_round(last_winners):
+def next_round(last_winners): #this function takes the winners of the last round and pits them against each other in order, to create
+    # a proper tournament bracket.
     roster_length = len(last_winners)
     matchups = []
     winners = []
@@ -73,7 +74,7 @@ def next_round(last_winners):
         roster_length = len(last_winners)
         matchups.append(team_one + " vs " + team_two)
         winners.append(isWinner(team_one, team_two)) #calls isWinner and appends the result to the global variable winners
-    return(winners)
+    return(winners,matchups)
 
 #main
 
@@ -90,9 +91,13 @@ for x in winners:
 print()
 print("On to the next round!")
 while len(winners) > 1:
-    winners = next_round(winners)
-    print("The winners of that round were:")
-    for x in winners:
-        print(x)
+	vs_list = []
+	winners, vs_list = next_round(winners)
+	print("The Matchups that round were:")
+	for x in vs_list:
+		print(x)
+	print("The winners of that round were:")
+	for x in winners:
+		print(x)
 
 print("The champions are Team", winners[0])
